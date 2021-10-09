@@ -1,30 +1,26 @@
-import { IconButton, TextField, Typography } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material';
 import { Box } from '@mui/system';
-import SearchIcon from '@mui/icons-material/Search';
-
-const styles = {
-  hover: { '&:hover': { backgroundColor: 'transparent' } }
-};
 
 const SearchHeader = () => {
   return (
     <Box display="flex" justifyContent="space-between" mb={1}>
-      <Box flex={1}></Box>
-      <Box flex={5} display="flex" justifyContent="center" alignItems="center">
-        <Typography>Placeholder Title</Typography>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Typography>"Placeholder Search Title"</Typography>
       </Box>
-      <Box
-        border={1}
-        borderColor="white"
-        ml={1}
-        display="flex"
-        alignItems="center"
-        alignSelf="flex-end"
-      >
-        <TextField size="small" label="Search" variant="filled" />
-        <IconButton sx={styles.hover}>
-          <SearchIcon />
-        </IconButton>
+      <Box display="flex" alignItems="center">
+        <FormControl size="small" fullWidth>
+          <InputLabel id="search-filter-label">Search Filter</InputLabel>
+          <Select labelId="search-filter-label" label="Filter"></Select>
+        </FormControl>
+        <Box width={400} ml={1}>
+          <TextField size="small" label="Enter search value" variant="filled" />
+        </Box>
       </Box>
     </Box>
   );

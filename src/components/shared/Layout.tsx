@@ -1,4 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
+
+const styles = {
+  foreground: {
+    p: 2,
+    width: '100%',
+    height: '100%'
+  }
+};
 
 const Layout = (props: any) => {
   return (
@@ -10,7 +18,9 @@ const Layout = (props: any) => {
       px={7}
       py={2}
     >
-      {props.children}
+      <Paper sx={styles.foreground} elevation={5}>
+        {props.children}
+      </Paper>
     </Box>
   );
 };
