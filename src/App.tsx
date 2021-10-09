@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NavBar from './components/shared/NavBar';
+import Explore from './pages/Explore';
 
-function App() {
+const mainTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#4db31f'
+    },
+    secondary: {
+      main: '#f50057'
+    }
+  }
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <NavBar />
+        <Explore />
+      </ThemeProvider>
+    </>
   );
-}
+};
 
 export default App;
