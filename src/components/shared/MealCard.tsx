@@ -1,38 +1,48 @@
 import {
+  Box,
   Card,
-  CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   IconButton,
   Typography
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
+import { Meal } from './types/Meals';
 
-const MealCard = () => {
+interface MealCardProps {
+  mealData: Meal;
+}
+
+const styles = {
+  favIcon: {
+    bottom: '10px',
+    right: '10px',
+    backgroundColor: 'white',
+    borderRadius: '50%'
+  }
+};
+const MealCard = ({ mealData }: MealCardProps) => {
   return (
-    <Card sx={{ maxWidth: 300 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        />
+    <Card>
+      <Box sx={{ width: 300, height: 280 }}>
+        <Box position="relative">
+          <CardMedia
+            component="img"
+            height="150"
+            image={mealData.strMealThumb}
+          />
+          <Box position="absolute" sx={styles.favIcon}>
+            <IconButton size="small" color="primary">
+              <FavoriteBorder />
+            </IconButton>
+          </Box>
+        </Box>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Placeholder Meal Title
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Placeholder Subcontent
+          <Typography gutterBottom variant="h6" component="div">
+            {mealData.strMeal}
           </Typography>
         </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <IconButton size="small" color="primary">
-          <FavoriteBorder />
-        </IconButton>
-      </CardActions>
+      </Box>
     </Card>
   );
 };

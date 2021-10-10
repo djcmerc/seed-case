@@ -9,11 +9,14 @@ const styles = {
   }
 };
 
-const Layout = (props: any) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+const Layout = ({ children }: LayoutProps) => {
   return (
     <Box display="flex" justifyContent="center" px={7} py={2}>
       <Paper sx={styles.foreground} elevation={5}>
-        {props.children}
+        {children}
       </Paper>
     </Box>
   );
