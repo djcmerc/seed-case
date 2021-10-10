@@ -1,6 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material';
 import Layout from '../components/shared/Layout';
 import SearchHeader from '../components/explore/SearchHeader';
+import RecipeContainer from '../components/explore/RecipeContainer';
 
 const Explore = () => {
   return (
@@ -13,6 +14,7 @@ const Explore = () => {
       <Layout>
         <SearchHeader />
         <Divider light={true} />
+        <RecipeContainer />
       </Layout>
     </>
   );

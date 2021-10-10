@@ -10,11 +10,11 @@ import { Box } from '@mui/system';
 const SearchHeader = () => {
   return (
     <Box display="flex" justifyContent="space-between" mb={1}>
-      <Box display="flex" justifyContent="center" alignItems="center">
+      <Box display="flex" alignItems="center">
         <Typography>"Placeholder Search Title"</Typography>
       </Box>
       <Box display="flex" alignItems="center">
-        <FormControl size="small" fullWidth>
+        <FormControl variant="filled" size="small" fullWidth>
           <InputLabel id="search-filter-label">Search Filter</InputLabel>
           <Select labelId="search-filter-label" label="Filter"></Select>
         </FormControl>
