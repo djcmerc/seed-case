@@ -15,7 +15,6 @@ const MealContainer = () => {
       );
       const mealJson = await randomMealResponse.json();
       const mealData: Meal = mealJson.meals[0];
-      console.log(mealData);
       const foundMeal = tempMeals.findIndex(
         (meal) => meal.idMeal === mealData.idMeal
       );
