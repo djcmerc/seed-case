@@ -12,13 +12,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { Box } from '@mui/system';
 import React from 'react';
-
-enum SearchFilters {
-  MEAL_NAME = 'Meal Name',
-  FIRST_LETTER = 'First Letter',
-  CATEGORY = 'Category',
-  AREA = 'Area'
-}
+import { SearchFilters } from '../shared/enums/Search';
+import { getSearchFilterValues } from '../../api/Utils';
 
 const SearchHeader = () => {
   const [userSearchVal, setUserSearchVal] = React.useState<string>('');
@@ -26,6 +21,17 @@ const SearchHeader = () => {
   const [searchFilter, setSearchFilter] = React.useState<SearchFilters>(
     SearchFilters.MEAL_NAME
   );
+  const [filterValues, setFilterValues] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    if (
+      searchFilter === SearchFilters.AREA ||
+      searchFilter === SearchFilters.CATEGORY
+    ) {
+      const valResponse = getSearchFilterValues(searchFilter);
+      valResponse.then((vals: string[]) => setFilterValues(vals));
+    }
+  }, [searchFilter]);
 
   const onEnterPressHandler = (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -63,6 +69,14 @@ const SearchHeader = () => {
     }
   };
 
+  let isFilterBy = false;
+  if (
+    searchFilter === SearchFilters.AREA ||
+    searchFilter === SearchFilters.CATEGORY
+  ) {
+    isFilterBy = true;
+  }
+
   return (
     <Box display="flex" justifyContent="space-between" mb={1}>
       <Box display="flex" alignItems="center">
@@ -89,24 +103,41 @@ const SearchHeader = () => {
             <MenuItem value={SearchFilters.AREA}>Area</MenuItem>
           </Select>
         </FormControl>
-        <Box ml={1}>
-          <TextField
-            size="small"
-            label="Enter search value"
-            variant="filled"
-            onKeyPress={onEnterPressHandler}
-            onChange={onUserSearchChangeHandler}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={onSearchIconPressHandler}>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-        </Box>
+        {!isFilterBy && (
+          <Box ml={1}>
+            <TextField
+              size="small"
+              label="Enter search value"
+              variant="filled"
+              onKeyPress={onEnterPressHandler}
+              onChange={onUserSearchChangeHandler}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={onSearchIconPressHandler}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Box>
+        )}
+        {isFilterBy && (
+          <Box ml={1}>
+            <FormControl sx={{ minWidth: 100 }} variant="filled" size="small">
+              <Select>
+                {filterValues.map((val) => {
+                  return (
+                    <MenuItem key={val} value={val}>
+                      {val}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
       </Box>
     </Box>
   );
