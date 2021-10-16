@@ -17,11 +17,13 @@ import { SearchFilters } from '../shared/enums/Search';
 interface SearchHeaderProps {
   areaFilterValues: string[];
   categoryFilterValues: string[];
+  searchQueryHandler: (searchType: SearchFilters, searchVal: string) => void;
 }
 
 const SearchHeader = ({
   areaFilterValues,
-  categoryFilterValues
+  categoryFilterValues,
+  searchQueryHandler
 }: SearchHeaderProps) => {
   const [userSearchVal, setUserSearchVal] = React.useState<string>('');
   const [searchTitle, setSearchTitle] = React.useState<string>('');
@@ -34,12 +36,13 @@ const SearchHeader = ({
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === 'Enter') {
-      setSearchTitle(userSearchVal);
+      onSearchIconPressHandler();
     }
   };
 
   const onSearchIconPressHandler = () => {
     setSearchTitle(userSearchVal);
+    searchQueryHandler(searchFilter, userSearchVal);
   };
 
   const onUserSearchChangeHandler = (
@@ -49,6 +52,8 @@ const SearchHeader = ({
   };
 
   const onSearchFilterChangeHandler = (event: SelectChangeEvent) => {
+    setSearchTitle('');
+    setUserSearchVal('');
     switch (event.target.value) {
       case 'Meal Name':
       default:
@@ -66,12 +71,13 @@ const SearchHeader = ({
         setFilterValues(areaFilterValues);
         break;
     }
+    searchQueryHandler(event.target.value as SearchFilters, '');
   };
 
   const onFilterValSelectHandler = (event: SelectChangeEvent) => {
     setUserSearchVal(event.target.value);
+    searchQueryHandler(searchFilter, event.target.value);
   };
-  console.log(userSearchVal);
 
   let isFilterBy = false;
   if (
@@ -113,6 +119,7 @@ const SearchHeader = ({
               size="small"
               label="Enter search value"
               variant="filled"
+              value={userSearchVal}
               onKeyPress={onEnterPressHandler}
               onChange={onUserSearchChangeHandler}
               InputProps={{

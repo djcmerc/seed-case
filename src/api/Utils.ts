@@ -1,4 +1,3 @@
-import { SearchFilters } from '../components/shared/enums/Search';
 import { Meal } from '../components/shared/types/Meals';
 
 export const getRandomMeals = async () => {
@@ -28,13 +27,6 @@ export const getRandomMeals = async () => {
   }
 };
 
-interface CategoryJson {
-  meals: CategoryData[];
-}
-
-interface AreaJson {
-  meals: AreaData[];
-}
 interface CategoryData {
   strCategory: string;
 }
@@ -51,13 +43,10 @@ export const getCategoryFilterValues = async () => {
     );
     const responseJson = await response.json();
 
-    let responseData = [];
-
-    responseData = responseJson.meals.map(
+    const responseData: string[] = responseJson.meals.map(
       (meal: CategoryData) => meal.strCategory
     );
 
-    console.log(responseData);
     return responseData;
   } catch (e) {
     console.error(e);
@@ -72,11 +61,10 @@ export const getAreaFilterValues = async () => {
     );
     const responseJson = await response.json();
 
-    let responseData = [];
+    const responseData: string[] = responseJson.meals.map(
+      (meal: AreaData) => meal.strArea
+    );
 
-    responseData = responseJson.meals.map((meal: AreaData) => meal.strArea);
-
-    console.log(responseData);
     return responseData;
   } catch (e) {
     console.error(e);

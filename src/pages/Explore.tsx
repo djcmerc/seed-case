@@ -3,12 +3,55 @@ import Layout from '../components/shared/Layout';
 import SearchHeader from '../components/explore/SearchHeader';
 import MealContainer from '../components/explore/MealContainer';
 import { getAreaFilterValues, getCategoryFilterValues } from '../api/Utils';
-import React from 'react';
+import React, { Reducer } from 'react';
+import {
+  SearchFilters,
+  SearchQueryActionKind
+} from '../components/shared/enums/Search';
+
+interface SearchQueryState {
+  searchType: SearchFilters;
+  searchVal: string;
+}
+
+interface SearchQueryChangeAction {
+  type: SearchQueryActionKind;
+  value: string;
+}
+
+const searchQueryReducer: Reducer<SearchQueryState, SearchQueryChangeAction> = (
+  prevState,
+  action
+) => {
+  const { type, value } = action;
+
+  switch (type) {
+    case SearchQueryActionKind.CHANGE_TYPE:
+      return {
+        ...prevState,
+        searchType: value as SearchFilters
+      };
+    case SearchQueryActionKind.CHANGE_VALUE:
+      return {
+        ...prevState,
+        searchVal: value
+      };
+    default:
+      return {
+        searchType: SearchFilters.MEAL_NAME,
+        searchVal: ''
+      };
+  }
+};
 
 const Explore = () => {
   const [areaFilterVals, setAreaFilterVals] = React.useState<string[]>([]);
   const [categoryFilterVals, setCategoryFilterVals] = React.useState<string[]>(
     []
+  );
+  const [searchQueryState, dispatchSearchQueryState] = React.useReducer(
+    searchQueryReducer,
+    { searchType: SearchFilters.MEAL_NAME, searchVal: '' }
   );
 
   React.useEffect(() => {
@@ -25,6 +68,24 @@ const Explore = () => {
     });
   }, []);
 
+  const searchQueryStateHandler = (
+    searchType: SearchFilters,
+    searchVal: string
+  ) => {
+    if (searchType !== searchQueryState.searchType) {
+      dispatchSearchQueryState({
+        type: SearchQueryActionKind.CHANGE_TYPE,
+        value: searchType
+      });
+    }
+    if (searchVal !== searchQueryState.searchVal) {
+      dispatchSearchQueryState({
+        type: SearchQueryActionKind.CHANGE_VALUE,
+        value: searchVal
+      });
+    }
+  };
+
   return (
     <>
       <Box pt={2} sx={{ textAlign: 'center' }}>
@@ -36,6 +97,7 @@ const Explore = () => {
         <SearchHeader
           areaFilterValues={areaFilterVals}
           categoryFilterValues={categoryFilterVals}
+          searchQueryHandler={searchQueryStateHandler}
         />
         <Divider light={true} />
         <MealContainer />

@@ -4,3 +4,8 @@ export enum SearchFilters {
   CATEGORY = 'Category',
   AREA = 'Area'
 }
+
+export enum SearchQueryActionKind {
+  CHANGE_TYPE = 'CHANGE TYPE',
+  CHANGE_VALUE = 'CHANGE VALUE'
+}
