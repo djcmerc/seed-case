@@ -4,5 +4,3 @@ export enum SearchFilters {
   CATEGORY = 'Category',
   AREA = 'Area'
 }
-
-export default {};

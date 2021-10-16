@@ -13,25 +13,22 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box } from '@mui/system';
 import React from 'react';
 import { SearchFilters } from '../shared/enums/Search';
-import { getSearchFilterValues } from '../../api/Utils';
 
-const SearchHeader = () => {
+interface SearchHeaderProps {
+  areaFilterValues: string[];
+  categoryFilterValues: string[];
+}
+
+const SearchHeader = ({
+  areaFilterValues,
+  categoryFilterValues
+}: SearchHeaderProps) => {
   const [userSearchVal, setUserSearchVal] = React.useState<string>('');
   const [searchTitle, setSearchTitle] = React.useState<string>('');
   const [searchFilter, setSearchFilter] = React.useState<SearchFilters>(
     SearchFilters.MEAL_NAME
   );
   const [filterValues, setFilterValues] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    if (
-      searchFilter === SearchFilters.AREA ||
-      searchFilter === SearchFilters.CATEGORY
-    ) {
-      const valResponse = getSearchFilterValues(searchFilter);
-      valResponse.then((vals: string[]) => setFilterValues(vals));
-    }
-  }, [searchFilter]);
 
   const onEnterPressHandler = (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -51,7 +48,7 @@ const SearchHeader = () => {
     setUserSearchVal(event.target.value);
   };
 
-  const onSelectChangeHandler = (event: SelectChangeEvent) => {
+  const onSearchFilterChangeHandler = (event: SelectChangeEvent) => {
     switch (event.target.value) {
       case 'Meal Name':
       default:
@@ -62,12 +59,19 @@ const SearchHeader = () => {
         break;
       case 'Category':
         setSearchFilter(SearchFilters.CATEGORY);
+        setFilterValues(categoryFilterValues);
         break;
       case 'Area':
         setSearchFilter(SearchFilters.AREA);
+        setFilterValues(areaFilterValues);
         break;
     }
   };
+
+  const onFilterValSelectHandler = (event: SelectChangeEvent) => {
+    setUserSearchVal(event.target.value);
+  };
+  console.log(userSearchVal);
 
   let isFilterBy = false;
   if (
@@ -92,7 +96,7 @@ const SearchHeader = () => {
           <Select
             labelId="search-filter-label"
             label="Filter"
-            onChange={onSelectChangeHandler}
+            onChange={onSearchFilterChangeHandler}
             value={searchFilter}
           >
             <MenuItem value={SearchFilters.MEAL_NAME}>Meal Name</MenuItem>
@@ -126,7 +130,7 @@ const SearchHeader = () => {
         {isFilterBy && (
           <Box ml={1}>
             <FormControl sx={{ minWidth: 100 }} variant="filled" size="small">
-              <Select>
+              <Select onChange={onFilterValSelectHandler} defaultValue="">
                 {filterValues.map((val) => {
                   return (
                     <MenuItem key={val} value={val}>

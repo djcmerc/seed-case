@@ -9,7 +9,11 @@ const MealContainer = () => {
 
   React.useEffect(() => {
     const responseMeals = getRandomMeals();
-    responseMeals.then((val) => setMeals(val));
+    responseMeals.then((val) => {
+      if (val) {
+        setMeals(val);
+      }
+    });
   }, []);
 
   return (
