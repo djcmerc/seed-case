@@ -1,6 +1,10 @@
-export interface Meal {
-  dateModified: string | null;
+export interface BasicMealInfo {
   idMeal: string;
+  strMealThumb: string;
+  strMeal: string;
+}
+export interface Meal extends BasicMealInfo {
+  dateModified: string | null;
   strArea: string;
   strCategory: string;
   strCreativeCommonsConfirmed: string | null;
@@ -27,8 +31,6 @@ export interface Meal {
   strIngredient19: string;
   strIngredient20: string;
   strInstructions: string;
-  strMeal: string;
-  strMealThumb: string;
   strMeasure1: string;
   strMeasure2: string;
   strMeasure3: string;

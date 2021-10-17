@@ -7,10 +7,10 @@ import {
   Typography
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
-import { Meal } from './types/Meals';
+import { BasicMealInfo, Meal } from './types/Meals';
 
 interface MealCardProps {
-  mealData: Meal;
+  mealData: BasicMealInfo | Meal;
 }
 
 const styles = {

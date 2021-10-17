@@ -2,12 +2,18 @@ import { Box, Divider, Typography } from '@mui/material';
 import Layout from '../components/shared/Layout';
 import SearchHeader from '../components/explore/SearchHeader';
 import MealContainer from '../components/explore/MealContainer';
-import { getAreaFilterValues, getCategoryFilterValues } from '../api/Utils';
+import {
+  getAreaFilterValues,
+  getCategoryFilterValues,
+  getMealsByFilter,
+  getMealsBySearch
+} from '../api/GetUtils';
 import React, { Reducer } from 'react';
 import {
   SearchFilters,
   SearchQueryActionKind
 } from '../components/shared/enums/Search';
+import { BasicMealInfo, Meal } from '../components/shared/types/Meals';
 
 interface SearchQueryState {
   searchType: SearchFilters;
@@ -53,6 +59,9 @@ const Explore = () => {
     searchQueryReducer,
     { searchType: SearchFilters.MEAL_NAME, searchVal: '' }
   );
+  const [getMealResponse, setGetMealResponse] = React.useState<
+    Meal[] | BasicMealInfo[]
+  >([]);
 
   React.useEffect(() => {
     getAreaFilterValues().then((val) => {
@@ -67,6 +76,33 @@ const Explore = () => {
       }
     });
   }, []);
+
+  React.useEffect(() => {
+    if (searchQueryState.searchVal.trim().length > 0) {
+      if (
+        searchQueryState.searchType === SearchFilters.MEAL_NAME ||
+        searchQueryState.searchType === SearchFilters.FIRST_LETTER
+      ) {
+        getMealsBySearch(
+          searchQueryState.searchType,
+          searchQueryState.searchVal
+        ).then((meals) => {
+          if (meals) {
+            setGetMealResponse(meals);
+          }
+        });
+      } else {
+        getMealsByFilter(
+          searchQueryState.searchType,
+          searchQueryState.searchVal
+        ).then((meals) => {
+          if (meals) {
+            setGetMealResponse(meals);
+          }
+        });
+      }
+    }
+  }, [searchQueryState]);
 
   const searchQueryStateHandler = (
     searchType: SearchFilters,
@@ -100,7 +136,7 @@ const Explore = () => {
           searchQueryHandler={searchQueryStateHandler}
         />
         <Divider light={true} />
-        <MealContainer />
+        <MealContainer searchResponseMeals={getMealResponse} />
       </Layout>
     </>
   );

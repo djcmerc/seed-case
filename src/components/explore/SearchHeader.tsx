@@ -122,6 +122,10 @@ const SearchHeader = ({
               value={userSearchVal}
               onKeyPress={onEnterPressHandler}
               onChange={onUserSearchChangeHandler}
+              inputProps={{
+                maxLength:
+                  searchFilter === SearchFilters.FIRST_LETTER ? 1 : 524288
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

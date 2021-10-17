@@ -1,4 +1,5 @@
-import { Meal } from '../components/shared/types/Meals';
+import { SearchFilters } from '../components/shared/enums/Search';
+import { BasicMealInfo, Meal } from '../components/shared/types/Meals';
 
 export const getRandomMeals = async () => {
   let count = 0;
@@ -66,6 +67,48 @@ export const getAreaFilterValues = async () => {
     );
 
     return responseData;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getMealsBySearch = async (
+  searchType: SearchFilters,
+  searchValue: string
+) => {
+  const searchChar = searchType === SearchFilters.MEAL_NAME ? 's' : 'f';
+  const fullUrl = `https://www.themealdb.com/api/json/v1/1/search.php?${searchChar}=${searchValue}`;
+  try {
+    const response = await fetch(fullUrl);
+    const responseJson = await response.json();
+    const mealData: Meal[] = responseJson.meals;
+
+    if (mealData === null) {
+      return [];
+    } else {
+      return mealData;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getMealsByFilter = async (
+  searchType: SearchFilters,
+  searchValue: string
+) => {
+  const searchChar = searchType === SearchFilters.CATEGORY ? 'c' : 'a';
+  const fullUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?${searchChar}=${searchValue}`;
+  try {
+    const response = await fetch(fullUrl);
+    const responseJson = await response.json();
+    const mealData: BasicMealInfo[] = responseJson.meals;
+
+    if (mealData === null) {
+      return [];
+    } else {
+      return mealData;
+    }
   } catch (e) {
     console.error(e);
   }

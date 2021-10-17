@@ -1,20 +1,34 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 import MealCard from '../shared/MealCard';
-import { Meal } from '../shared/types/Meals';
-import { getRandomMeals } from '../../api/Utils';
+import { BasicMealInfo, Meal } from '../shared/types/Meals';
+import { getRandomMeals } from '../../api/GetUtils';
 
-const MealContainer = () => {
-  const [meals, setMeals] = React.useState<Meal[]>([]);
+interface MealContainerProps {
+  searchResponseMeals: Meal[] | BasicMealInfo[];
+}
+const MealContainer = ({ searchResponseMeals }: MealContainerProps) => {
+  const [meals, setMeals] = React.useState<Meal[] | BasicMealInfo[]>([]);
+  const [isPageLoaded, setIsPageLoaded] = React.useState<boolean>(false);
+  const [mealsLoaded, setMealsLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const responseMeals = getRandomMeals();
     responseMeals.then((val) => {
       if (val) {
         setMeals(val);
+        setMealsLoaded(true);
       }
     });
   }, []);
+
+  React.useEffect(() => {
+    if (isPageLoaded) {
+      setMeals(searchResponseMeals);
+    } else {
+      setIsPageLoaded(true);
+    }
+  }, [searchResponseMeals]);
 
   return (
     <Box
@@ -32,6 +46,9 @@ const MealContainer = () => {
           </Box>
         );
       })}
+      {mealsLoaded && meals.length === 0 && (
+        <Typography fontStyle="italic">No meals found.</Typography>
+      )}
     </Box>
   );
 };
