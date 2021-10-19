@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import MealCard from '../shared/MealCard';
-import { BasicMealInfo, Meal } from '../shared/types/Meals';
+import { BasicMealInfo } from '../shared/types/Meals';
 import { getRandomMeals } from '../../api/GetUtils';
 
 interface MealContainerProps {
-  searchResponseMeals: Meal[] | BasicMealInfo[];
+  searchResponseMeals: BasicMealInfo[];
 }
 const MealContainer = ({ searchResponseMeals }: MealContainerProps) => {
-  const [meals, setMeals] = React.useState<Meal[] | BasicMealInfo[]>([]);
+  const [meals, setMeals] = React.useState<BasicMealInfo[]>([]);
   const [isPageLoaded, setIsPageLoaded] = React.useState<boolean>(false);
   const [mealsLoaded, setMealsLoaded] = React.useState<boolean>(false);
 

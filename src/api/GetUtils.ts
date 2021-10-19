@@ -81,13 +81,15 @@ export const getMealsBySearch = async (
   try {
     const response = await fetch(fullUrl);
     const responseJson = await response.json();
-    const mealData: Meal[] = responseJson.meals;
+    const mealData: BasicMealInfo[] = responseJson.meals?.map((meal: Meal) => {
+      return {
+        idMeal: meal.idMeal,
+        strMealThumb: meal.strMealThumb,
+        strMeal: meal.strMeal
+      };
+    });
 
-    if (mealData === null) {
-      return [];
-    } else {
-      return mealData;
-    }
+    return mealData ?? [];
   } catch (e) {
     console.error(e);
   }
@@ -104,11 +106,7 @@ export const getMealsByFilter = async (
     const responseJson = await response.json();
     const mealData: BasicMealInfo[] = responseJson.meals;
 
-    if (mealData === null) {
-      return [];
-    } else {
-      return mealData;
-    }
+    return mealData ?? [];
   } catch (e) {
     console.error(e);
   }

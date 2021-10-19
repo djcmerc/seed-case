@@ -13,7 +13,7 @@ import {
   SearchFilters,
   SearchQueryActionKind
 } from '../components/shared/enums/Search';
-import { BasicMealInfo, Meal } from '../components/shared/types/Meals';
+import { BasicMealInfo } from '../components/shared/types/Meals';
 
 interface SearchQueryState {
   searchType: SearchFilters;
@@ -59,9 +59,9 @@ const Explore = () => {
     searchQueryReducer,
     { searchType: SearchFilters.MEAL_NAME, searchVal: '' }
   );
-  const [getMealResponse, setGetMealResponse] = React.useState<
-    Meal[] | BasicMealInfo[]
-  >([]);
+  const [getMealResponse, setGetMealResponse] = React.useState<BasicMealInfo[]>(
+    []
+  );
 
   React.useEffect(() => {
     getAreaFilterValues().then((val) => {
