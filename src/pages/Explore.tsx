@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Paper, Typography } from '@mui/material';
 import Layout from '../components/shared/Layout';
 import SearchHeader from '../components/explore/SearchHeader';
 import MealContainer from '../components/explore/MealContainer';
@@ -14,6 +14,7 @@ import {
   SearchQueryActionKind
 } from '../components/shared/enums/Search';
 import { BasicMealInfo } from '../components/shared/types/Meals';
+import { pageStyles } from './styles/PageStyles';
 
 interface SearchQueryState {
   searchType: SearchFilters;
@@ -130,13 +131,15 @@ const Explore = () => {
         </Typography>
       </Box>
       <Layout>
-        <SearchHeader
-          areaFilterValues={areaFilterVals}
-          categoryFilterValues={categoryFilterVals}
-          searchQueryHandler={searchQueryStateHandler}
-        />
-        <Divider light={true} />
-        <MealContainer searchResponseMeals={getMealResponse} />
+        <Paper sx={pageStyles.foreground} elevation={5}>
+          <SearchHeader
+            areaFilterValues={areaFilterVals}
+            categoryFilterValues={categoryFilterVals}
+            searchQueryHandler={searchQueryStateHandler}
+          />
+          <Divider light={true} />
+          <MealContainer searchResponseMeals={getMealResponse} />
+        </Paper>
       </Layout>
     </>
   );

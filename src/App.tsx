@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from './components/shared/NavBar';
 import Explore from './pages/Explore';
+import Details from './pages/Details';
 
 const mainTheme = createTheme({
   palette: {
@@ -21,7 +22,8 @@ const App = () => {
       <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <NavBar />
-        <Explore />
+        {/*<Explore />*/}
+        <Details />
       </ThemeProvider>
     </>
   );
