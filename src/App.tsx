@@ -3,6 +3,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from './components/shared/NavBar';
 import Explore from './pages/Explore';
 import Details from './pages/Details';
+import { Redirect, Route } from 'react-router';
+import { Switch } from 'react-router-dom';
 
 const mainTheme = createTheme({
   palette: {
@@ -22,8 +24,17 @@ const App = () => {
       <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <NavBar />
-        {/*<Explore />*/}
-        <Details />
+        <Switch>
+          <Route path="/" exact>
+            <Redirect to="/explore" />
+          </Route>
+          <Route path="/explore">
+            <Explore />
+          </Route>
+          <Route path="/meals/details/:mealId">
+            <Details />
+          </Route>
+        </Switch>
       </ThemeProvider>
     </>
   );

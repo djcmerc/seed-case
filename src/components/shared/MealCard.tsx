@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   IconButton,
@@ -8,6 +9,7 @@ import {
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BasicMealInfo } from './types/Meals';
+import { Link } from 'react-router-dom';
 
 interface MealCardProps {
   mealData: BasicMealInfo;
@@ -26,11 +28,16 @@ const MealCard = ({ mealData }: MealCardProps) => {
     <Card>
       <Box sx={{ width: 300, height: 280 }}>
         <Box position="relative">
-          <CardMedia
-            component="img"
-            height="150"
-            image={mealData.strMealThumb}
-          />
+          <CardActionArea
+            component={Link}
+            to={`/meals/details/${mealData.idMeal}`}
+          >
+            <CardMedia
+              component="img"
+              height="150"
+              image={mealData.strMealThumb}
+            />
+          </CardActionArea>
           <Box position="absolute" sx={styles.favIcon}>
             <IconButton size="small" color="primary">
               <FavoriteBorder />

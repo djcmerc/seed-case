@@ -1,4 +1,6 @@
 import { Box, Divider, Paper, Typography } from '@mui/material';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import Layout from '../components/shared/Layout';
 import { pageStyles } from './styles/PageStyles';
 
@@ -16,7 +18,16 @@ const detailsStyles = {
   }
 };
 
+interface DetailsLinkParams {
+  mealId: string;
+}
 const Details = () => {
+  const linkParams = useParams<DetailsLinkParams>();
+
+  React.useEffect(() => {
+    console.log(linkParams.mealId);
+  }, []);
+
   return (
     <Layout>
       <Box sx={pageStyles.foreground}>

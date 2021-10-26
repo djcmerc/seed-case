@@ -1,6 +1,14 @@
-import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import {
+  Box,
+  AppBar,
+  IconButton,
+  Toolbar,
+  Typography,
+  Link
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AccountCircle } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
   return (
@@ -21,7 +29,9 @@ const NavBar = () => {
 
         <Box display="flex">
           <Box px={5}>
-            <Typography variant="h6">Explore</Typography>
+            <Link component={NavLink} sx={{ color: 'inherit' }} to="/explore">
+              <Typography variant="h6">Explore</Typography>
+            </Link>
           </Box>
           <Box px={5}>
             <Typography variant="h6">Favorites</Typography>
