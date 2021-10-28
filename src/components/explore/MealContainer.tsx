@@ -46,6 +46,9 @@ const MealContainer = ({ searchResponseMeals }: MealContainerProps) => {
           </Box>
         );
       })}
+      {!mealsLoaded && meals.length === 0 && (
+        <Typography fontStyle="italic">Loading...</Typography>
+      )}
       {mealsLoaded && meals.length === 0 && (
         <Typography fontStyle="italic">No meals found.</Typography>
       )}

@@ -111,3 +111,16 @@ export const getMealsByFilter = async (
     console.error(e);
   }
 };
+
+export const getMealById = async (mealId: string) => {
+  const fullUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`;
+  try {
+    const response = await fetch(fullUrl);
+    const responseJson = await response.json();
+    const mealData: Meal[] = responseJson.meals;
+
+    return mealData[0] ?? null;
+  } catch (e) {
+    console.error(e);
+  }
+};
