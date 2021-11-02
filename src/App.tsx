@@ -5,6 +5,7 @@ import Explore from './pages/Explore';
 import Details from './pages/Details';
 import { Redirect, Route } from 'react-router';
 import { Switch } from 'react-router-dom';
+import UserContext, { defaultUserCtx } from './store/UserContext';
 
 const mainTheme = createTheme({
   palette: {
@@ -28,12 +29,14 @@ const App = () => {
           <Route path="/" exact>
             <Redirect to="/explore" />
           </Route>
-          <Route path="/explore">
-            <Explore />
-          </Route>
-          <Route path="/meals/details/:mealId">
-            <Details />
-          </Route>
+          <UserContext.Provider value={defaultUserCtx}>
+            <Route path="/explore">
+              <Explore />
+            </Route>
+            <Route path="/meals/details/:mealId">
+              <Details />
+            </Route>
+          </UserContext.Provider>
         </Switch>
       </ThemeProvider>
     </>

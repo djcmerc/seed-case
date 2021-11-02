@@ -16,7 +16,14 @@ const MealContainer = ({ searchResponseMeals }: MealContainerProps) => {
     const responseMeals = getRandomMeals();
     responseMeals.then((val) => {
       if (val) {
-        setMeals(val);
+        const mappedData: BasicMealInfo[] = val.map((meal) => {
+          return {
+            idMeal: meal.idMeal,
+            strMealThumb: meal.strMealThumb,
+            strMeal: meal.strMeal
+          };
+        });
+        setMeals(mappedData);
         setMealsLoaded(true);
       }
     });

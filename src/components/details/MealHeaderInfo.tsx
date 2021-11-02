@@ -31,7 +31,7 @@ interface MealHeaderInfoProps {
   meal: Meal | undefined;
 }
 const MealHeaderInfo = ({ meal }: MealHeaderInfoProps) => {
-  let ingredients: IngredientDetails[] = [];
+  const ingredients: IngredientDetails[] = [];
   if (meal) {
     for (const [key, value] of Object.entries(meal)) {
       if (key.includes('strIngredient') && value !== '') {
