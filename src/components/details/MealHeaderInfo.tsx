@@ -1,6 +1,9 @@
 import { Box, Divider, IconButton, Paper, Typography } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
-import { Meal } from '../shared/types/Meals';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { BasicMealInfo, Meal } from '../shared/types/Meals';
+import React, { useCallback } from 'react';
+import UserContext from '../../store/UserContext';
 
 const detailsStyles = {
   mealHeader: {
@@ -31,7 +34,15 @@ interface MealHeaderInfoProps {
   meal: Meal | undefined;
 }
 const MealHeaderInfo = ({ meal }: MealHeaderInfoProps) => {
+  const userCtx = React.useContext(UserContext);
+  const [isFavorited, setIsFavorited] = React.useState<boolean>(false);
   const ingredients: IngredientDetails[] = [];
+  let basicMealInfo: BasicMealInfo = {
+    idMeal: '',
+    strMealThumb: '',
+    strMeal: ''
+  };
+
   if (meal) {
     for (const [key, value] of Object.entries(meal)) {
       if (key.includes('strIngredient') && value !== '') {
@@ -47,7 +58,46 @@ const MealHeaderInfo = ({ meal }: MealHeaderInfoProps) => {
         });
       }
     }
+
+    basicMealInfo = {
+      idMeal: meal.idMeal,
+      strMealThumb: meal.strMealThumb,
+      strMeal: meal.strMeal
+    };
   }
+
+  const onFavoriteClickHandler = () => {
+    if (basicMealInfo.idMeal) {
+      if (
+        !userCtx.favorites.some(
+          (favorite) => favorite.idMeal === basicMealInfo.idMeal
+        )
+      ) {
+        userCtx.favorites.push(basicMealInfo);
+        setIsFavorited(true);
+      } else {
+        const filteredFavorites = userCtx.favorites.filter(
+          (meal) => meal.idMeal !== basicMealInfo.idMeal
+        );
+        userCtx.favorites = filteredFavorites;
+        setIsFavorited(false);
+      }
+    }
+  };
+
+  const inFavoritesContext = useCallback(() => {
+    if (
+      userCtx.favorites.some(
+        (favorite) => favorite.idMeal === basicMealInfo.idMeal
+      )
+    ) {
+      setIsFavorited(true);
+    }
+  }, [basicMealInfo.idMeal, userCtx.favorites]);
+
+  React.useEffect(() => {
+    inFavoritesContext();
+  }, [inFavoritesContext]);
 
   return (
     <>
@@ -61,8 +111,13 @@ const MealHeaderInfo = ({ meal }: MealHeaderInfoProps) => {
             mr={2}
           ></Box>
           <Box position="absolute" sx={detailsStyles.favIcon}>
-            <IconButton size="small" color="primary">
-              <FavoriteBorder />
+            <IconButton
+              onClick={onFavoriteClickHandler}
+              size="small"
+              color="primary"
+            >
+              {!isFavorited && <FavoriteBorder />}
+              {isFavorited && <FavoriteIcon />}
             </IconButton>
           </Box>
         </Box>
