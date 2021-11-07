@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import MealCard from '../shared/MealCard';
+import MealCard from './MealCard';
 import { BasicMealInfo } from '../shared/types/Meals';
 import { getRandomMeals } from '../../api/GetUtils';
 

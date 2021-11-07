@@ -34,7 +34,9 @@ const NavBar = () => {
             </Link>
           </Box>
           <Box px={5}>
-            <Typography variant="h6">Favorites</Typography>
+            <Link component={NavLink} sx={{ color: 'inherit' }} to="/favorites">
+              <Typography variant="h6">Favorites</Typography>
+            </Link>
           </Box>
           <Box px={5}>
             <Typography variant="h6">Calendar</Typography>

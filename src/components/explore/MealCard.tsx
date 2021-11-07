@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { BasicMealInfo } from './types/Meals';
+import { BasicMealInfo } from '../shared/types/Meals';
 import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import UserContext from '../../store/UserContext';

@@ -6,6 +6,7 @@ import Details from './pages/Details';
 import { Redirect, Route } from 'react-router';
 import { Switch } from 'react-router-dom';
 import UserContext, { defaultUserCtx } from './store/UserContext';
+import Favorites from './pages/Favorites';
 
 const mainTheme = createTheme({
   palette: {
@@ -35,6 +36,9 @@ const App = () => {
             </Route>
             <Route path="/meals/details/:mealId">
               <Details />
+            </Route>
+            <Route path="/favorites">
+              <Favorites />
             </Route>
           </UserContext.Provider>
         </Switch>
