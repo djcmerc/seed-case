@@ -8,7 +8,9 @@ import {
   Typography
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import { BasicMealInfo } from '../shared/types/Meals';
 import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
@@ -24,6 +26,10 @@ const styles = {
     right: '10px',
     backgroundColor: 'white',
     borderRadius: '50%'
+  },
+  addIcon: {
+    bottom: '5px',
+    right: '5px'
   }
 };
 const MealCard = ({ mealData }: MealCardProps) => {
@@ -82,10 +88,29 @@ const MealCard = ({ mealData }: MealCardProps) => {
             </IconButton>
           </Box>
         </Box>
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            {mealData.strMeal}
-          </Typography>
+        <CardContent sx={{ height: 130, position: 'relative' }}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            flexDirection="column"
+            height="100%"
+          >
+            <Box>
+              <Typography gutterBottom variant="h6" component="div">
+                {mealData.strMeal}
+              </Typography>
+            </Box>
+          </Box>
+          <Box position="absolute" sx={styles.addIcon}>
+            <IconButton
+              size="small"
+              color="primary"
+              sx={{ borderRadius: '25%' }}
+            >
+              <ListAltIcon />
+              <AddIcon sx={{ height: 13, width: 13 }} />
+            </IconButton>
+          </Box>
         </CardContent>
       </Box>
     </Card>
