@@ -5,15 +5,13 @@ import {
   Box,
   Button,
   Dialog,
-  Divider,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Toolbar,
   Typography
 } from '@mui/material';
 import React from 'react';
+import MealNamesContainer from './MealNamesContainer';
+import IngredientsContainer from './IngredientsContainer';
 
 const styles = {
   listIcon: {
@@ -21,6 +19,11 @@ const styles = {
     right: '20px',
     backgroundColor: 'white',
     borderRadius: '50%'
+  },
+  cartWindow: {
+    width: '90vw',
+    height: '90vh',
+    maxWidth: 'none'
   }
 };
 
@@ -42,7 +45,11 @@ const ShoppingList = () => {
           <ListAltIcon />
         </IconButton>
       </Box>
-      <Dialog fullScreen open={open} onClose={handleClose}>
+      <Dialog
+        PaperProps={{ sx: styles.cartWindow }}
+        open={open}
+        onClose={handleClose}
+      >
         <AppBar sx={{ position: 'relative' }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose}>
@@ -56,15 +63,8 @@ const ShoppingList = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem>
-            <ListItemText primary="Test Meal Name" />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText primary="Test Meal Name" />
-          </ListItem>
-        </List>
+        <MealNamesContainer />
+        <IngredientsContainer />
       </Dialog>
     </>
   );
