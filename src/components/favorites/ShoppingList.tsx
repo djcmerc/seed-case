@@ -21,7 +21,7 @@ const styles = {
     borderRadius: '50%'
   },
   cartWindow: {
-    width: '90vw',
+    width: '50vw',
     height: '90vh',
     maxWidth: 'none'
   }
