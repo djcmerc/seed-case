@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import MealNamesContainer from './MealNamesContainer';
 import IngredientsContainer from './IngredientsContainer';
+import UserContext from '../../store/UserContext';
 
 const styles = {
   listIcon: {
@@ -28,6 +29,10 @@ const styles = {
 };
 
 const ShoppingList = () => {
+  const userCtx = React.useContext(UserContext);
+  const listMeals: string[] = userCtx.shoppingList.map((meal) => {
+    return meal.strMeal;
+  });
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -63,7 +68,7 @@ const ShoppingList = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <MealNamesContainer />
+        <MealNamesContainer mealNames={listMeals} />
         <IngredientsContainer />
       </Dialog>
     </>

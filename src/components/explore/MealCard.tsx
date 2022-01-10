@@ -15,6 +15,7 @@ import { BasicMealInfo } from '../shared/types/Meals';
 import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import UserContext from '../../store/UserContext';
+import { getMealById } from '../../api/GetUtils';
 
 interface MealCardProps {
   mealData: BasicMealInfo;
@@ -48,6 +49,21 @@ const MealCard = ({ mealData }: MealCardProps) => {
       );
       userCtx.favorites = filteredFavorites;
       setIsFavorited(false);
+    }
+  };
+
+  const onAddShoppingListHandler = () => {
+    if (
+      !userCtx.shoppingList.some(
+        (shoppingListItem) => shoppingListItem.idMeal === mealData.idMeal
+      )
+    ) {
+      const responseMeal = getMealById(mealData.idMeal);
+      responseMeal.then((val) => {
+        if (val) {
+          userCtx.shoppingList.push(val);
+        }
+      });
     }
   };
 
@@ -106,6 +122,7 @@ const MealCard = ({ mealData }: MealCardProps) => {
               size="small"
               color="primary"
               sx={{ borderRadius: '25%' }}
+              onClick={onAddShoppingListHandler}
             >
               <ListAltIcon />
               <AddIcon sx={{ height: 13, width: 13 }} />
