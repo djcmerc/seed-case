@@ -1,23 +1,16 @@
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import React from 'react';
-import UserContext from '../../store/UserContext';
 
 interface MealNamesContainerProps {
   mealNames: string[];
+  mealChipDelete: (mealName: string) => void;
 }
-const MealNamesContainer = ({ mealNames }: MealNamesContainerProps) => {
-  const userCtx = React.useContext(UserContext);
-  const [meals, setMeals] = React.useState<string[]>(mealNames);
-
+const MealNamesContainer = ({
+  mealNames,
+  mealChipDelete
+}: MealNamesContainerProps) => {
   const mealDeleteHandler = (mealName: string) => {
-    const filteredShoppingList = userCtx.shoppingList.filter(
-      (meal) => meal.strMeal !== mealName
-    );
-    userCtx.shoppingList = filteredShoppingList;
-    const newMealNames = filteredShoppingList.map((meal) => {
-      return meal.strMeal;
-    });
-    setMeals(newMealNames);
+    mealChipDelete(mealName);
   };
   return (
     <>
@@ -29,9 +22,10 @@ const MealNamesContainer = ({ mealNames }: MealNamesContainerProps) => {
         </Box>
         <Box mt={1} p={1} display="flex" justifyContent="center">
           <Stack flexWrap="wrap" direction="row" justifyContent="center">
-            {meals.map((mealName) => {
+            {mealNames.map((mealName, index) => {
               return (
                 <Chip
+                  key={mealName + index}
                   label={mealName}
                   variant="outlined"
                   onDelete={() => mealDeleteHandler(mealName)}

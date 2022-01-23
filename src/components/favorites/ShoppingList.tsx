@@ -13,6 +13,7 @@ import React from 'react';
 import MealNamesContainer from './MealNamesContainer';
 import IngredientsContainer from './IngredientsContainer';
 import UserContext from '../../store/UserContext';
+import { Meal } from '../shared/types/Meals';
 
 const styles = {
   listIcon: {
@@ -22,7 +23,7 @@ const styles = {
     borderRadius: '50%'
   },
   cartWindow: {
-    width: '50vw',
+    width: '35vw',
     height: '90vh',
     maxWidth: 'none'
   }
@@ -30,10 +31,10 @@ const styles = {
 
 const ShoppingList = () => {
   const userCtx = React.useContext(UserContext);
-  const listMeals: string[] = userCtx.shoppingList.map((meal) => {
-    return meal.strMeal;
-  });
   const [open, setOpen] = React.useState(false);
+  const [shoppingList, setShoppingList] = React.useState<Meal[]>(
+    userCtx.shoppingList
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +44,17 @@ const ShoppingList = () => {
     setOpen(false);
   };
 
+  const mealDeleteHandler = (mealName: string) => {
+    const filteredShoppingList = userCtx.shoppingList.filter(
+      (meal) => meal.strMeal !== mealName
+    );
+    userCtx.shoppingList = filteredShoppingList;
+    setShoppingList(filteredShoppingList);
+  };
+
+  const listMeals: string[] = userCtx.shoppingList.map((meal) => {
+    return meal.strMeal;
+  });
   return (
     <>
       <Box position="fixed" sx={styles.listIcon}>
@@ -68,8 +80,20 @@ const ShoppingList = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <MealNamesContainer mealNames={listMeals} />
-        <IngredientsContainer />
+        {shoppingList.length > 0 && (
+          <>
+            <MealNamesContainer
+              mealNames={listMeals}
+              mealChipDelete={mealDeleteHandler}
+            />
+            <IngredientsContainer meals={shoppingList} />
+          </>
+        )}
+        {shoppingList.length === 0 && (
+          <Box display="flex" justifyContent="center" pt={35}>
+            <Typography fontStyle="italic">No meals found.</Typography>
+          </Box>
+        )}
       </Dialog>
     </>
   );
