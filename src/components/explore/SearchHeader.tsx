@@ -12,7 +12,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { Box } from '@mui/system';
 import React from 'react';
-import { SearchFilters } from '../shared/enums/Search';
+import { SearchFilters } from '../shared/types/Enums';
 
 interface SearchHeaderProps {
   areaFilterValues: string[];

@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography, Tooltip } from '@mui/material';
 import React from 'react';
 import { Meal } from '../shared/types/Meals';
 
@@ -63,7 +63,11 @@ const IngredientsContainer = ({ meals }: IngredientsContainerProps) => {
             {Array.from(ingredients).map(
               ([ingredient, measurements], index) => {
                 return (
-                  <Typography key={ingredient + index}>{ingredient}</Typography>
+                  <Tooltip title={measurements} placement="right" arrow>
+                    <Typography key={ingredient + index}>
+                      {ingredient}
+                    </Typography>
+                  </Tooltip>
                 );
               }
             )}

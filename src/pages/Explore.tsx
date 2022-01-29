@@ -12,9 +12,10 @@ import React, { Reducer } from 'react';
 import {
   SearchFilters,
   SearchQueryActionKind
-} from '../components/shared/enums/Search';
+} from '../components/shared/types/Enums';
 import { BasicMealInfo } from '../components/shared/types/Meals';
 import { pageStyles } from './styles/PageStyles';
+import ShoppingList from '../components/shared/ShoppingList';
 
 interface SearchQueryState {
   searchType: SearchFilters;
@@ -139,6 +140,7 @@ const Explore = () => {
           />
           <Divider light={true} />
           <MealContainer searchResponseMeals={getMealResponse} />
+          <ShoppingList />
         </Paper>
       </Layout>
     </>

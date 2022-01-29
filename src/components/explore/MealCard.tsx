@@ -1,10 +1,12 @@
 import {
+  Alert,
   Box,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   IconButton,
+  Snackbar,
   Typography
 } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
@@ -16,6 +18,8 @@ import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import UserContext from '../../store/UserContext';
 import { getMealById } from '../../api/GetUtils';
+import { SnackbarTypes } from '../shared/types/Enums';
+import { SnackbarAlert } from '../shared/types/Info';
 
 interface MealCardProps {
   mealData: BasicMealInfo;
@@ -36,6 +40,22 @@ const styles = {
 const MealCard = ({ mealData }: MealCardProps) => {
   const userCtx = React.useContext(UserContext);
   const [isFavorited, setIsFavorited] = React.useState<boolean>(false);
+  const [alert, setAlert] = React.useState<SnackbarAlert>({
+    snackbarType: -1,
+    snackbarMessage: ''
+  });
+  const [snackbarOpen, setSnackbarOpen] = React.useState<boolean>(false);
+
+  const handleAlertClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
 
   const onFavoriteClickHandler = () => {
     if (
@@ -62,9 +82,21 @@ const MealCard = ({ mealData }: MealCardProps) => {
       responseMeal.then((val) => {
         if (val) {
           userCtx.shoppingList.push(val);
+          const alertMessage = `Added ${mealData.strMeal} to shopping cart!`;
+          setAlert({
+            snackbarType: SnackbarTypes.SUCCESS,
+            snackbarMessage: alertMessage
+          });
         }
       });
+    } else {
+      const alertMessage = `${mealData.strMeal} is already in the shopping cart!`;
+      setAlert({
+        snackbarType: SnackbarTypes.ERROR,
+        snackbarMessage: alertMessage
+      });
     }
+    setSnackbarOpen(true);
   };
 
   const inFavoritesContext = useCallback(() => {
@@ -80,57 +112,84 @@ const MealCard = ({ mealData }: MealCardProps) => {
   }, [inFavoritesContext]);
 
   return (
-    <Card>
-      <Box sx={{ width: 300, height: 280 }}>
-        <Box position="relative">
-          <CardActionArea
-            component={Link}
-            to={`/meals/details/${mealData.idMeal}`}
-          >
-            <CardMedia
-              component="img"
-              height="150"
-              image={mealData.strMealThumb}
-            />
-          </CardActionArea>
-          <Box position="absolute" sx={styles.favIcon}>
-            <IconButton
-              size="small"
-              color="primary"
-              onClick={onFavoriteClickHandler}
+    <>
+      <Card>
+        <Box sx={{ width: 300, height: 280 }}>
+          <Box position="relative">
+            <CardActionArea
+              component={Link}
+              to={`/meals/details/${mealData.idMeal}`}
             >
-              {!isFavorited && <FavoriteBorder />}
-              {isFavorited && <FavoriteIcon />}
-            </IconButton>
-          </Box>
-        </Box>
-        <CardContent sx={{ height: 130, position: 'relative' }}>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            flexDirection="column"
-            height="100%"
-          >
-            <Box>
-              <Typography gutterBottom variant="h6" component="div">
-                {mealData.strMeal}
-              </Typography>
+              <CardMedia
+                component="img"
+                height="150"
+                image={mealData.strMealThumb}
+              />
+            </CardActionArea>
+            <Box position="absolute" sx={styles.favIcon}>
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={onFavoriteClickHandler}
+              >
+                {!isFavorited && <FavoriteBorder />}
+                {isFavorited && <FavoriteIcon />}
+              </IconButton>
             </Box>
           </Box>
-          <Box position="absolute" sx={styles.addIcon}>
-            <IconButton
-              size="small"
-              color="primary"
-              sx={{ borderRadius: '25%' }}
-              onClick={onAddShoppingListHandler}
+          <CardContent sx={{ height: 130, position: 'relative' }}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              flexDirection="column"
+              height="100%"
             >
-              <ListAltIcon />
-              <AddIcon sx={{ height: 13, width: 13 }} />
-            </IconButton>
-          </Box>
-        </CardContent>
-      </Box>
-    </Card>
+              <Box>
+                <Typography gutterBottom variant="h6" component="div">
+                  {mealData.strMeal}
+                </Typography>
+              </Box>
+            </Box>
+            <Box position="absolute" sx={styles.addIcon}>
+              <IconButton
+                size="small"
+                color="primary"
+                sx={{ borderRadius: '25%' }}
+                onClick={onAddShoppingListHandler}
+              >
+                <ListAltIcon />
+                <AddIcon sx={{ height: 13, width: 13 }} />
+              </IconButton>
+            </Box>
+          </CardContent>
+        </Box>
+      </Card>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleAlertClose}
+      >
+        {alert.snackbarType === SnackbarTypes.SUCCESS ? (
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            {alert.snackbarMessage}
+          </Alert>
+        ) : (
+          <Alert
+            onClose={handleAlertClose}
+            severity="error"
+            sx={{ width: '100%' }}
+            key={alert.snackbarMessage}
+          >
+            {alert.snackbarMessage}
+          </Alert>
+        )}
+      </Snackbar>
+    </>
   );
 };
 

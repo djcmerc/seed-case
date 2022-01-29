@@ -9,3 +9,10 @@ export enum SearchQueryActionKind {
   CHANGE_TYPE = 'CHANGE TYPE',
   CHANGE_VALUE = 'CHANGE VALUE'
 }
+
+export enum SnackbarTypes {
+  SUCCESS,
+  WARNING,
+  INFO,
+  ERROR
+}

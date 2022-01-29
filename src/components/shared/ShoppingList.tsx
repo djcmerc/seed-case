@@ -10,10 +10,10 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
-import MealNamesContainer from './MealNamesContainer';
-import IngredientsContainer from './IngredientsContainer';
+import MealNamesContainer from '../favorites/MealNamesContainer';
+import IngredientsContainer from '../favorites/IngredientsContainer';
 import UserContext from '../../store/UserContext';
-import { Meal } from '../shared/types/Meals';
+import { Meal } from './types/Meals';
 
 const styles = {
   listIcon: {

@@ -1,4 +1,4 @@
-import { SearchFilters } from '../components/shared/enums/Search';
+import { SearchFilters } from '../components/shared/types/Enums';
 import { BasicMealInfo, Meal } from '../components/shared/types/Meals';
 
 export const getRandomMeals = async () => {
