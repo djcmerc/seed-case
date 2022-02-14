@@ -40,10 +40,7 @@ const styles = {
 const MealCard = ({ mealData }: MealCardProps) => {
   const userCtx = React.useContext(UserContext);
   const [isFavorited, setIsFavorited] = React.useState<boolean>(false);
-  const [alert, setAlert] = React.useState<SnackbarAlert>({
-    snackbarType: -1,
-    snackbarMessage: ''
-  });
+  const [alert, setAlert] = React.useState<SnackbarAlert>();
   const [snackbarOpen, setSnackbarOpen] = React.useState<boolean>(false);
 
   const handleAlertClose = (
@@ -55,6 +52,7 @@ const MealCard = ({ mealData }: MealCardProps) => {
     }
 
     setSnackbarOpen(false);
+    setAlert(undefined);
   };
 
   const onFavoriteClickHandler = () => {
@@ -81,7 +79,7 @@ const MealCard = ({ mealData }: MealCardProps) => {
       const responseMeal = getMealById(mealData.idMeal);
       responseMeal.then((val) => {
         if (val) {
-          userCtx.shoppingList.push(val);
+          userCtx.setShoppingList([...userCtx.shoppingList, val]);
           const alertMessage = `Added ${mealData.strMeal} to shopping cart!`;
           setAlert({
             snackbarType: SnackbarTypes.SUCCESS,
@@ -96,7 +94,6 @@ const MealCard = ({ mealData }: MealCardProps) => {
         snackbarMessage: alertMessage
       });
     }
-    setSnackbarOpen(true);
   };
 
   const inFavoritesContext = useCallback(() => {
@@ -110,6 +107,12 @@ const MealCard = ({ mealData }: MealCardProps) => {
   React.useEffect(() => {
     inFavoritesContext();
   }, [inFavoritesContext]);
+
+  React.useEffect(() => {
+    if (alert) {
+      setSnackbarOpen(true);
+    }
+  }, [alert]);
 
   return (
     <>
@@ -164,31 +167,33 @@ const MealCard = ({ mealData }: MealCardProps) => {
           </CardContent>
         </Box>
       </Card>
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleAlertClose}
-      >
-        {alert.snackbarType === SnackbarTypes.SUCCESS ? (
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            {alert.snackbarMessage}
-          </Alert>
-        ) : (
-          <Alert
-            onClose={handleAlertClose}
-            severity="error"
-            sx={{ width: '100%' }}
-            key={alert.snackbarMessage}
-          >
-            {alert.snackbarMessage}
-          </Alert>
-        )}
-      </Snackbar>
+      {!!alert && (
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleAlertClose}
+        >
+          {alert.snackbarType === SnackbarTypes.SUCCESS ? (
+            <Alert
+              onClose={handleAlertClose}
+              severity="success"
+              sx={{ width: '100%' }}
+            >
+              {alert.snackbarMessage}
+            </Alert>
+          ) : (
+            <Alert
+              onClose={handleAlertClose}
+              severity="error"
+              sx={{ width: '100%' }}
+              key={alert.snackbarMessage}
+            >
+              {alert.snackbarMessage}
+            </Alert>
+          )}
+        </Snackbar>
+      )}
     </>
   );
 };

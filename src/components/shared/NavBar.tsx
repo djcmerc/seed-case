@@ -9,13 +9,14 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { AccountCircle } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
+import ShoppingList from './ShoppingList';
 
 const NavBar = () => {
   return (
     <AppBar position="static" color="primary" enableColorOnDark>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box width={200} display="flex" alignItems="center">
-          <IconButton
+          {/*<IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -23,7 +24,7 @@ const NavBar = () => {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton>*/}
           <Typography variant="h6">seed-CASE</Typography>
         </Box>
 
@@ -43,13 +44,8 @@ const NavBar = () => {
           </Box>
         </Box>
         <Box width={200} display="flex" justifyContent="flex-end">
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-          >
+          <ShoppingList />
+          <IconButton size="large" edge="end" color="inherit">
             <AccountCircle />
           </IconButton>
         </Box>

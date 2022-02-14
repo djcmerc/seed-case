@@ -2,6 +2,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   AppBar,
+  Badge,
   Box,
   Button,
   Dialog,
@@ -13,15 +14,8 @@ import React from 'react';
 import MealNamesContainer from '../favorites/MealNamesContainer';
 import IngredientsContainer from '../favorites/IngredientsContainer';
 import UserContext from '../../store/UserContext';
-import { Meal } from './types/Meals';
 
 const styles = {
-  listIcon: {
-    bottom: '20px',
-    right: '20px',
-    backgroundColor: 'white',
-    borderRadius: '50%'
-  },
   cartWindow: {
     width: '35vw',
     height: '90vh',
@@ -32,9 +26,6 @@ const styles = {
 const ShoppingList = () => {
   const userCtx = React.useContext(UserContext);
   const [open, setOpen] = React.useState(false);
-  const [shoppingList, setShoppingList] = React.useState<Meal[]>(
-    userCtx.shoppingList
-  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,8 +39,7 @@ const ShoppingList = () => {
     const filteredShoppingList = userCtx.shoppingList.filter(
       (meal) => meal.strMeal !== mealName
     );
-    userCtx.shoppingList = filteredShoppingList;
-    setShoppingList(filteredShoppingList);
+    userCtx.setShoppingList(filteredShoppingList);
   };
 
   const listMeals: string[] = userCtx.shoppingList.map((meal) => {
@@ -57,11 +47,11 @@ const ShoppingList = () => {
   });
   return (
     <>
-      <Box position="fixed" sx={styles.listIcon}>
-        <IconButton size="large" color="primary" onClick={handleClickOpen}>
+      <IconButton size="large" color="inherit" onClick={handleClickOpen}>
+        <Badge badgeContent={userCtx.shoppingList.length} color="secondary">
           <ListAltIcon />
-        </IconButton>
-      </Box>
+        </Badge>
+      </IconButton>
       <Dialog
         PaperProps={{ sx: styles.cartWindow }}
         open={open}
@@ -80,16 +70,16 @@ const ShoppingList = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        {shoppingList.length > 0 && (
+        {userCtx.shoppingList.length > 0 && (
           <>
             <MealNamesContainer
               mealNames={listMeals}
               mealChipDelete={mealDeleteHandler}
             />
-            <IngredientsContainer meals={shoppingList} />
+            <IngredientsContainer meals={userCtx.shoppingList} />
           </>
         )}
-        {shoppingList.length === 0 && (
+        {userCtx.shoppingList.length === 0 && (
           <Box display="flex" justifyContent="center" pt={35}>
             <Typography fontStyle="italic">No meals found.</Typography>
           </Box>

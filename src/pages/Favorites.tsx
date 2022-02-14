@@ -2,7 +2,6 @@ import { Box, Paper, Typography } from '@mui/material';
 import Layout from '../components/shared/Layout';
 import { pageStyles } from './styles/PageStyles';
 import FavoritesContainer from '../components/favorites/FavoritesContainer';
-import ShoppingList from '../components/shared/ShoppingList';
 
 const Favorites = () => {
   return (
@@ -15,7 +14,6 @@ const Favorites = () => {
       <Layout>
         <Paper sx={pageStyles.foreground} elevation={5}>
           <FavoritesContainer />
-          <ShoppingList />
         </Paper>
       </Layout>
     </>

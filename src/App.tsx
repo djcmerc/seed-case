@@ -7,6 +7,8 @@ import { Redirect, Route } from 'react-router';
 import { Switch } from 'react-router-dom';
 import UserContext, { defaultUserCtx } from './store/UserContext';
 import Favorites from './pages/Favorites';
+import React from 'react';
+import { Meal } from './components/shared/types/Meals';
 
 const mainTheme = createTheme({
   palette: {
@@ -21,16 +23,30 @@ const mainTheme = createTheme({
 });
 
 const App = () => {
+  const [contextShoppingList, setContextShoppingList] = React.useState<Meal[]>(
+    []
+  );
+
+  const setShoppingList = (shoppingList: Meal[]) => {
+    setContextShoppingList(shoppingList);
+  };
+
   return (
     <>
       <ThemeProvider theme={mainTheme}>
         <CssBaseline />
-        <NavBar />
         <Switch>
           <Route path="/" exact>
             <Redirect to="/explore" />
           </Route>
-          <UserContext.Provider value={defaultUserCtx}>
+          <UserContext.Provider
+            value={{
+              ...defaultUserCtx,
+              shoppingList: contextShoppingList,
+              setShoppingList
+            }}
+          >
+            <NavBar />
             <Route path="/explore">
               <Explore />
             </Route>
