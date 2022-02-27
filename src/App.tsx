@@ -3,12 +3,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from './components/shared/NavBar';
 import Explore from './pages/Explore';
 import Details from './pages/Details';
-import { Redirect, Route } from 'react-router';
+import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
 import UserContext, { defaultUserCtx } from './store/UserContext';
 import Favorites from './pages/Favorites';
 import React from 'react';
 import { Meal } from './components/shared/types/Meals';
+import Login from './pages/Login';
 
 const mainTheme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ const App = () => {
         <CssBaseline />
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/explore" />
+            <Login />
           </Route>
           <UserContext.Provider
             value={{
