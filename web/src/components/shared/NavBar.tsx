@@ -6,7 +6,7 @@ import {
   Typography,
   Link
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+//import MenuIcon from '@mui/icons-material/Menu';
 import { AccountCircle } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import ShoppingList from './ShoppingList';
