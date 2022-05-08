@@ -7,7 +7,7 @@ import {
   getCategoryFilterValues,
   getMealsByFilter,
   getMealsBySearch
-} from '../api/GetUtils';
+} from '../api/MealApiUtils';
 import React, { Reducer } from 'react';
 import {
   SearchFilters,

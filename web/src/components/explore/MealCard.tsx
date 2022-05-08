@@ -17,7 +17,7 @@ import { BasicMealInfo } from '../shared/types/Meals';
 import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import UserContext from '../../store/UserContext';
-import { getMealById } from '../../api/GetUtils';
+import { getMealById } from '../../api/MealApiUtils';
 import { SnackbarTypes } from '../shared/types/Enums';
 import { SnackbarAlert } from '../shared/types/Info';
 

@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import MealCard from './MealCard';
 import { BasicMealInfo } from '../shared/types/Meals';
-import { getRandomMeals } from '../../api/GetUtils';
+import { getRandomMeals } from '../../api/MealApiUtils';
 
 interface MealContainerProps {
   searchResponseMeals: BasicMealInfo[];

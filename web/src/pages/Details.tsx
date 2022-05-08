@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/shared/Layout';
 import { pageStyles } from './styles/PageStyles';
-import { getMealById } from '../api/GetUtils';
+import { getMealById } from '../api/MealApiUtils';
 import { Meal } from '../components/shared/types/Meals';
 import MealHeaderInfo from '../components/details/MealHeaderInfo';
 import MealInstructions from '../components/details/MealInstructions';

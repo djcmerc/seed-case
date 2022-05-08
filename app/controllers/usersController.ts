@@ -5,10 +5,15 @@ const usersController = () => ({
   login: async (req: Request, res: Response) => {
     try {
       const result = await usersService().login(
-        req.query.email.toString(),
-        req.query.password.toString()
+        req.body.email,
+        req.body.password
       );
-      return res.send(result);
+
+      if (result.length !== 0) {
+        return res.send({ email: result[0].email });
+      } else {
+        return res.sendStatus(400);
+      }
     } catch (err) {
       console.error(`Error while getting login credentials`, err.message);
     }

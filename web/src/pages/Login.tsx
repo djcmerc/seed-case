@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
+import { getLogin } from '../api/db/UserUtils';
+import React from 'react';
 
 const validationSchema = yup.object({
   email: yup
@@ -19,6 +21,7 @@ const validationSchema = yup.object({
 });
 
 export const Login = () => {
+  const [userLoginError, setUserLoginError] = React.useState<boolean>(false);
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -27,12 +30,18 @@ export const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: () => {
-      handleLogin();
+      handleLogin(formik.values.email, formik.values.password);
     }
   });
 
-  const handleLogin = () => {
-    history.push('/explore');
+  const handleLogin = async (email: string, password: string) => {
+    const result = await getLogin(email, password);
+    if (result) {
+      history.push('/explore');
+      setUserLoginError(false);
+    } else {
+      setUserLoginError(true);
+    }
   };
 
   return (
@@ -79,13 +88,13 @@ export const Login = () => {
                     size="small"
                   />
                 </Box>
-                {/*userLoginError && (
+                {userLoginError && (
                   <Box display="flex" justifyContent="center" pb={1}>
                     <Typography variant="body1" color="error">
                       Email or Password is incorrect.
                     </Typography>
                   </Box>
-                )*/}
+                )}
                 <Divider />
                 <Box display="flex" justifyContent="center" m={1.5}>
                   <Button
