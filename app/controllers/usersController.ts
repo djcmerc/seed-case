@@ -17,6 +17,20 @@ const usersController = () => ({
     } catch (err) {
       console.error(`Error while getting login credentials`, err.message);
     }
+  },
+  signup: async (req: Request, res: Response) => {
+    try {
+      const result = await usersService().signup(req.body);
+
+      if (result) {
+        return res.send({ result: true });
+      } else {
+        return res.send({ result: false });
+      }
+    } catch (err) {
+      console.error(`Error while getting login credentials`, err.message);
+      return res.sendStatus(400);
+    }
   }
 });
 

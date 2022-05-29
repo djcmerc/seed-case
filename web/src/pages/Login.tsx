@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  Link,
   Paper,
   TextField,
   Typography
@@ -116,9 +117,9 @@ export const Login = () => {
           </Paper>
           <Box mt={1}>
             <Box pt={1} display="flex" justifyContent="center">
-              {/*<Link href="/signup" variant="subtitle2">
+              <Link variant="subtitle2" underline="none" href="/signup">
                 Create New Account
-            </Link>*/}
+              </Link>
             </Box>
           </Box>
         </Box>

@@ -10,6 +10,7 @@ import Favorites from './pages/Favorites';
 import React from 'react';
 import { Meal } from './components/shared/types/Meals';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const mainTheme = createTheme({
   palette: {
@@ -39,6 +40,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <Login />
+          </Route>
+          <Route path="/signup" exact>
+            <Signup />
           </Route>
           <UserContext.Provider
             value={{
