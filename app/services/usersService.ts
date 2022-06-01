@@ -19,15 +19,10 @@ const usersService = () => ({
       'SELECT email, password from userInfo WHERE email=$1 AND password=$2',
       [email, password]
     );
-    console.log(result);
     return result;
   },
   signup: async (userInfo: User) => {
-    const birthday: Date = new Date(
-      userInfo.year,
-      userInfo.month,
-      userInfo.day
-    );
+    const birthday = new Date(userInfo.year, userInfo.month - 1, userInfo.day);
     const result = await db.func('registeruser', [
       userInfo.email,
       userInfo.firstName,
